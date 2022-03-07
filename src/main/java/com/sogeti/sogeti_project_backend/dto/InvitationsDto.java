@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 public class InvitationsDto {
 
-    private String invitationId;
+    private int invitationId;
     private String date;
     private String time;
     private String place;
@@ -19,11 +19,11 @@ public class InvitationsDto {
     private String food;
     private String entertainment;
 
-    public String getInvitationId() {
+    public int getInvitationId() {
         return invitationId;
     }
 
-    public void setInvitationId(String invitationId) {
+    public void setInvitationId(int invitationId) {
         this.invitationId = invitationId;
     }
 

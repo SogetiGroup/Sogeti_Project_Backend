@@ -7,6 +7,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class InvitatiosServiceImpl implements InvitationsService {
@@ -29,18 +34,30 @@ public class InvitatiosServiceImpl implements InvitationsService {
     }
 
     @Override
-    public InvitationsDto findById(String invitationsId) {
-        return null;
+    public InvitationsDto findById(Integer invitationsId) {
+        Optional<Invitations> result = invitationsRepository.findById(invitationsId);
+        return mapper.map(result,InvitationsDto.class);
+    }
+
+
+    @Override
+    public List<InvitationsDto> findAll() {
+       List<Invitations> list = new ArrayList<>();
+       invitationsRepository.findAll().iterator().forEachRemaining(list::add);
+       return list.stream().map(category -> mapper.map(category, InvitationsDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public InvitationsDto update(InvitationsDto dto) {
-        return null;
+        Invitations entity = mapper.map(dto, Invitations.class);
+        Invitations result = invitationsRepository.save(entity);
+
+        return mapper.map(result, InvitationsDto.class);
     }
 
     @Override
-    public void delete(String invitationsId) {
-        invitationsRepository.delete(mapper.map(findById(invitationsId),Invitations.class));
+    public void delete(Integer invitationsId) {
+        invitationsRepository.delete(mapper.map(findById(invitationsId), Invitations.class));
 
     }
 }
