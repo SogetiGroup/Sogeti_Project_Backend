@@ -1,34 +1,26 @@
-package com.sogeti.sogeti_project_backend.models;
-
+package com.sogeti.sogeti_project_backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
-
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserId;
+public class UserDto {
+
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private String userName;
     private String password;
 
-    //@OneToMany(cascade = {CascadeType.ALL})
-    //private List<Role> roles;
-
     public int getUserId() {
-        return UserId;
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -71,37 +63,15 @@ public class User {
         this.password = password;
     }
 
- /*   public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }*/
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getUserName(), user.getUserName()) /*&& Objects.equals(getRoles(), user.getRoles()*/;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getFirstName(), getLastName(), getEmail(), getUserName()); //getRoles());
-    }
-
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + UserId +
+        return "UserDto{" +
+                "id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + //roles +
                 '}';
     }
 }
