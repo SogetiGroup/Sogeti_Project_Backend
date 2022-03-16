@@ -7,7 +7,9 @@ import com.sogeti.sogeti_project_backend.models.User;
 import com.sogeti.sogeti_project_backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService{
     private final ModelMapper mapper;
     private final UserRepository userRepository;
 
+
     public UserServiceImpl(ModelMapper mapper, UserRepository userRepository) {
         this.mapper = mapper;
         this.userRepository = userRepository;
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
+    @Transactional
     public UserDto create(UserDto dto) {
         User saved = mapper.map(dto, User.class);
         User result = userRepository.save(saved);
@@ -35,9 +39,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public UserDto findById(Integer userId) {
         Optional<User> result = userRepository.findById(userId);
         return mapper.map(result, UserDto.class);
+
     }
 
     @Override
@@ -49,6 +55,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public UserDto update(UserDto dto) {
 
         User entity = mapper.map(dto, User.class);
@@ -60,7 +67,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(Integer userId) {
-
         userRepository.delete(mapper.map(findById(userId), User.class));
     }
 

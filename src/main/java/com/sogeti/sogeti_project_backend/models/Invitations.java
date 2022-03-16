@@ -1,16 +1,22 @@
 package com.sogeti.sogeti_project_backend.models;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Invitations {
 
 
     @Id
-    // @GeneratedValue(generator = "UUID" )
-    //@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int invitationsId;
     private String Date;

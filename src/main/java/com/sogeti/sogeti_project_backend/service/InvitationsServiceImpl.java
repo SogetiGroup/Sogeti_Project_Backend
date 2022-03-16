@@ -6,6 +6,7 @@ import com.sogeti.sogeti_project_backend.repository.InvitationsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +15,20 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class InvitatiosServiceImpl implements InvitationsService {
+public class InvitationsServiceImpl implements InvitationsService {
 
     private final ModelMapper mapper;
     private final InvitationsRepository invitationsRepository;
 
-    @Autowired
-    public InvitatiosServiceImpl(ModelMapper mapper, InvitationsRepository invitationsRepository) {
+
+    public InvitationsServiceImpl(ModelMapper mapper, InvitationsRepository invitationsRepository) {
         this.mapper = mapper;
         this.invitationsRepository = invitationsRepository;
     }
 
 
    @Override
+   @Transactional
     public InvitationsDto create(InvitationsDto dto) {
         Invitations saved = mapper.map(dto, Invitations.class);
         Invitations result = invitationsRepository.save(saved);
@@ -48,6 +50,7 @@ public class InvitatiosServiceImpl implements InvitationsService {
     }
 
     @Override
+    @Transactional
     public InvitationsDto update(InvitationsDto dto) {
         Invitations entity = mapper.map(dto, Invitations.class);
         Invitations result = invitationsRepository.save(entity);
@@ -56,6 +59,7 @@ public class InvitatiosServiceImpl implements InvitationsService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer invitationsId) {
         invitationsRepository.delete(mapper.map(findById(invitationsId), Invitations.class));
 

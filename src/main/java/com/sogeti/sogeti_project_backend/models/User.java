@@ -4,10 +4,8 @@ package com.sogeti.sogeti_project_backend.models;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -17,18 +15,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserId;
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private String userName;
     private String password;
 
-    //@OneToMany(cascade = {CascadeType.ALL})
-    //private List<Role> roles;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_title", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Title> titles;
+
+
+
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public String getFirstName() {
@@ -71,13 +73,13 @@ public class User {
         this.password = password;
     }
 
- /*   public List<Role> getRoles() {
-        return roles;
+    public List<Title> getTitles() {
+        return titles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }*/
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -95,7 +97,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + UserId +
+                "id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

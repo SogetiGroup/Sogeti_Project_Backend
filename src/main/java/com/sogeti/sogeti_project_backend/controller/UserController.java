@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserController {
 
     ResponseEntity<UserDto> create (UserDto dto);
-    ResponseEntity<UserDto> findById(Integer userId);
+    ResponseEntity<UserDto> findById(Integer id);
     ResponseEntity<List<UserDto>>  getAll();
     ResponseEntity<UserDto> update(UserDto dto);
     ResponseEntity<Void> delete (Integer userId);
