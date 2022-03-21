@@ -1,9 +1,8 @@
 package com.sogeti.sogeti_project_backend.repository;
 
 import com.sogeti.sogeti_project_backend.models.Invitations;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface InvitationsRepository extends CrudRepository<Invitations, Integer> {
+public interface InvitationsRepository extends JpaRepository<Invitations, Integer> {
 }

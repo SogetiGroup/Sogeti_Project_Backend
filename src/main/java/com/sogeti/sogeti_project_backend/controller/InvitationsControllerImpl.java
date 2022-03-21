@@ -1,5 +1,7 @@
 package com.sogeti.sogeti_project_backend.controller;
 
+import com.sogeti.sogeti_project_backend.Exception.ArgumentException;
+import com.sogeti.sogeti_project_backend.Exception.DataNotFoundException;
 import com.sogeti.sogeti_project_backend.dto.InvitationsDto;
 import com.sogeti.sogeti_project_backend.service.InvitationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,32 +28,32 @@ public class InvitationsControllerImpl implements InvitationsController {
 
     @Override
     @PostMapping
-    public ResponseEntity<InvitationsDto> create(@RequestBody InvitationsDto dto){
+    public ResponseEntity<InvitationsDto> create(@RequestBody InvitationsDto dto) throws ArgumentException {
         return ResponseEntity.status(HttpStatus.CREATED).body(invitationsService.create(dto));
     }
 
     @Override
     @GetMapping("{id}")
-    public ResponseEntity<InvitationsDto> findById(@PathVariable("id") Integer id){
+    public ResponseEntity<InvitationsDto> findById(@PathVariable("id") Integer id) throws DataNotFoundException, ArgumentException {
         return ResponseEntity.ok(invitationsService.findById(id));
     }
 
 
     @Override
     @GetMapping
-    public ResponseEntity<List<InvitationsDto>> getAll() {
+    public ResponseEntity<List<InvitationsDto>> findAll() {
         return ResponseEntity.ok(invitationsService.findAll());
     }
 
     @Override
     @PutMapping
-    public ResponseEntity<InvitationsDto> update(InvitationsDto dto){
+    public ResponseEntity<InvitationsDto> update(InvitationsDto dto) throws ArgumentException {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(invitationsService.update(dto));
     }
 
     @Override
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws DataNotFoundException {
         invitationsService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,5 +1,7 @@
 package com.sogeti.sogeti_project_backend.service;
 
+import com.sogeti.sogeti_project_backend.Exception.ArgumentException;
+import com.sogeti.sogeti_project_backend.Exception.DataNotFoundException;
 import com.sogeti.sogeti_project_backend.dto.InvitationsDto;
 import com.sogeti.sogeti_project_backend.models.Invitations;
 import com.sogeti.sogeti_project_backend.repository.InvitationsRepository;
@@ -27,18 +29,24 @@ public class InvitationsServiceImpl implements InvitationsService {
     }
 
 
-   @Override
-   @Transactional
-    public InvitationsDto create(InvitationsDto dto) {
+    @Override
+    @Transactional
+    public InvitationsDto create(InvitationsDto dto) throws ArgumentException {
+        if (dto == null) throw new ArgumentException("Person data should not be null");
+        if (dto.getInvitationId() != 0) throw new ArgumentException("id should be null");
         Invitations saved = mapper.map(dto, Invitations.class);
         Invitations result = invitationsRepository.save(saved);
         return mapper.map(result, InvitationsDto.class);
     }
 
     @Override
-    public InvitationsDto findById(Integer invitationsId) {
-        Optional<Invitations> result = invitationsRepository.findById(invitationsId);
-        return mapper.map(result,InvitationsDto.class);
+    public InvitationsDto findById(Integer invitationsId) throws DataNotFoundException, ArgumentException {
+        //Optional<Invitations> result = invitationsRepository.findById(invitationsId);
+        //return mapper.map(result,InvitationsDto.class);
+
+        if (invitationsId == null || invitationsId == 0) throw new ArgumentException("Invitations Id should not be null or 0");
+        Invitations result = invitationsRepository.findById(invitationsId).orElseThrow(() -> new DataNotFoundException("Invitations not found"));
+        return mapper.map(result, InvitationsDto.class);
     }
 
 
@@ -51,17 +59,21 @@ public class InvitationsServiceImpl implements InvitationsService {
 
     @Override
     @Transactional
-    public InvitationsDto update(InvitationsDto dto) {
+    public InvitationsDto update(InvitationsDto dto) throws ArgumentException {
+        if (dto == null) throw new ArgumentException("Invitations data should not be null");
+        if (dto.getInvitationId() == 0) throw new ArgumentException("InvitationsId should not be null");
+
         Invitations entity = mapper.map(dto, Invitations.class);
         Invitations result = invitationsRepository.save(entity);
-
         return mapper.map(result, InvitationsDto.class);
+
     }
 
     @Override
-    @Transactional
-    public void delete(Integer invitationsId) {
-        invitationsRepository.delete(mapper.map(findById(invitationsId), Invitations.class));
+    public void delete(Integer invitationsId)  throws DataNotFoundException {
+        //invitationsRepository.delete(mapper.map(findById(invitationsId), Invitations.class));
+        invitationsRepository.deleteById(invitationsId);
+        invitationsRepository.existsById(invitationsId);
 
     }
 }

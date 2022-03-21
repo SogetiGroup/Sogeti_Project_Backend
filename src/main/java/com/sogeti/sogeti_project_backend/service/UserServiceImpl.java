@@ -1,5 +1,7 @@
 package com.sogeti.sogeti_project_backend.service;
 
+import com.sogeti.sogeti_project_backend.Exception.ArgumentException;
+import com.sogeti.sogeti_project_backend.Exception.DataNotFoundException;
 import com.sogeti.sogeti_project_backend.dto.InvitationsDto;
 import com.sogeti.sogeti_project_backend.dto.UserDto;
 import com.sogeti.sogeti_project_backend.models.Invitations;
@@ -32,7 +34,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserDto create(UserDto dto) {
+    public UserDto create(UserDto dto) throws ArgumentException {
+        if (dto == null) throw new ArgumentException("Person data should not be null");
+        if (dto.getUserId() != 0) throw new ArgumentException("id should be null");
         User saved = mapper.map(dto, User.class);
         User result = userRepository.save(saved);
         return mapper.map(result, UserDto.class);
@@ -40,8 +44,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserDto findById(Integer userId) {
-        Optional<User> result = userRepository.findById(userId);
+    public UserDto findById(Integer userId) throws DataNotFoundException, ArgumentException {
+        if (userId == null || userId == 0) throw new ArgumentException("User Id should not be null or 0");
+        //Optional<User> result = userRepository.findById(userId);
+        User result = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("User not found"));
         return mapper.map(result, UserDto.class);
 
     }
@@ -56,18 +62,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserDto update(UserDto dto) {
+    public UserDto update(UserDto dto) throws DataNotFoundException, ArgumentException {
+        if (dto == null) throw new ArgumentException("User data should not be null");
+        if (dto.getUserId() == 0) throw new ArgumentException("User Id should not be null");
 
         User entity = mapper.map(dto, User.class);
         User result = userRepository.save(entity);
-
         return mapper.map(result, UserDto.class);
 
     }
 
     @Override
-    public void delete(Integer userId) {
-        userRepository.delete(mapper.map(findById(userId), User.class));
+    @Transactional
+    public void delete(Integer userId) throws DataNotFoundException {
+        //userRepository.delete(mapper.map(findById(userId), User.class));
+        //return false;
+        userRepository.deleteById(userId);
+        userRepository.existsById(userId);
     }
 
 

@@ -20,5 +20,4 @@ public class Title {
     private int id;
     private String Title;
 
-
 }
