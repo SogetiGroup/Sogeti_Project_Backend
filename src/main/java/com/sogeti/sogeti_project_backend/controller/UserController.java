@@ -15,7 +15,7 @@ public interface UserController {
     ResponseEntity<UserDto> create (UserDto dto) throws ArgumentException;
     ResponseEntity<UserDto> findById(Integer id) throws DataNotFoundException, ArgumentException;
     ResponseEntity<List<UserDto>>  getAll();
-    ResponseEntity<UserDto> update(UserDto dto) throws DataNotFoundException, ArgumentException;
+    ResponseEntity<UserDto> update(Integer userId, UserDto dto) throws DataNotFoundException, ArgumentException;
     ResponseEntity<Void> delete (Integer userId) throws DataNotFoundException, DataConstraintViolationException;
 
 }

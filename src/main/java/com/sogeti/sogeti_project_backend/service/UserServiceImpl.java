@@ -62,13 +62,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserDto update(UserDto dto) throws DataNotFoundException, ArgumentException {
-        if (dto == null) throw new ArgumentException("User data should not be null");
-        if (dto.getUserId() == 0) throw new ArgumentException("User Id should not be null");
+    public UserDto update(Integer userId, UserDto dto) throws DataNotFoundException {
+        User userEntity = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("User does not exist with id :" + userId));
 
-        User entity = mapper.map(dto, User.class);
-        User result = userRepository.save(entity);
-        return mapper.map(result, UserDto.class);
+        userEntity.setFirstName(dto.getFirstName());
+        userEntity.setLastName(dto.getLastName());
+        userEntity.setEmail(dto.getEmail());
+        userEntity.setUserName(dto.getUserName());
+        userEntity.setPassword(dto.getPassword());
+        userEntity.setTitles(dto.getTitles());
+
+        return dto;
+
+//        if (dto == null) throw new ArgumentException("User data should not be null");
+//        if (dto.getUserId() == 0) throw new ArgumentException("User Id should not be null");
+//
+//        //User entity = mapper.map(dto, User.class);
+//
+//        User userEntity = mapper.map(dto, User.class);
+//        User result = userRepository.save(userEntity);
+//        return mapper.map(result, UserDto.class);
 
     }
 

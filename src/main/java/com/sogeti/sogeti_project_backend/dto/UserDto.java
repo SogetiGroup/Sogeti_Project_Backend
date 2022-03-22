@@ -1,19 +1,40 @@
 package com.sogeti.sogeti_project_backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.sogeti.sogeti_project_backend.models.Title;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.List;
 
 public class UserDto {
 
-    private int userId;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
     private String userName;
     private String password;
+    private List<Title> titles;
+
+    public UserDto() {
+    }
+
+    public UserDto(String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.titles = titles;
+    }
+
+    public UserDto(int userId, String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.titles = titles;
+    }
 
     public int getUserId() {
         return userId;
@@ -61,6 +82,14 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Title> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
     }
 
     @Override

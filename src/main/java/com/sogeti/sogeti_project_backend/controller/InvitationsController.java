@@ -14,6 +14,4 @@ public interface InvitationsController {
     ResponseEntity<List<InvitationsDto>> findAll();
     ResponseEntity<InvitationsDto> update(InvitationsDto dto) throws ArgumentException;
     ResponseEntity<Void> delete (Integer invitationsId) throws DataNotFoundException;
-
-
 }

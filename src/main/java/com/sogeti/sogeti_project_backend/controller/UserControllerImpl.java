@@ -48,8 +48,8 @@ public class UserControllerImpl implements UserController{
 
     @Override
     @PutMapping
-    public ResponseEntity<UserDto> update(@RequestBody UserDto dto) throws DataNotFoundException, ArgumentException {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.update(dto));
+    public ResponseEntity<UserDto> update(@PathVariable("id") Integer userId, @RequestBody UserDto dto) throws DataNotFoundException, ArgumentException {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.update(userId, dto));
     }
 
     @Override

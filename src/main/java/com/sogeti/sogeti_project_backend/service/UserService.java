@@ -14,6 +14,6 @@ public interface UserService {
     UserDto create (UserDto dto) throws ArgumentException;
     UserDto findById(Integer userId) throws ArgumentException, DataNotFoundException;
     List<UserDto> findAll();
-    UserDto update(UserDto dto) throws DataNotFoundException, ArgumentException;
+    UserDto update(Integer userId, UserDto dto) throws DataNotFoundException, ArgumentException;
     void delete (Integer userId) throws DataNotFoundException, DataConstraintViolationException;
 }
