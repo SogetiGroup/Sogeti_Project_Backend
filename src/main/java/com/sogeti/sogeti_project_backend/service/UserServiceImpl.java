@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDto create(UserDto dto) throws ArgumentException {
-        if (dto == null) throw new ArgumentException("Person data should not be null");
-        if (dto.getUserId() != 0) throw new ArgumentException("id should be null");
+       // if (dto == null) throw new ArgumentException("User data should not be null");
+       // if (dto.getUserId() != 0) throw new ArgumentException("User Id should be null");
         User saved = mapper.map(dto, User.class);
         User result = userRepository.save(saved);
         return mapper.map(result, UserDto.class);
@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDto> findAll() {
-
         List<User> list = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(list::add);
         return list.stream().map(category -> mapper.map(category, UserDto.class)).collect(Collectors.toList());
@@ -83,6 +82,8 @@ public class UserServiceImpl implements UserService{
 //        User result = userRepository.save(userEntity);
 //        return mapper.map(result, UserDto.class);
 
+
+
     }
 
     @Override
@@ -93,6 +94,7 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteById(userId);
         userRepository.existsById(userId);
     }
+
 
 
 }

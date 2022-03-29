@@ -8,14 +8,14 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    @Column(updatable = false)
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -27,10 +27,34 @@ public class User {
     private List<Title> titles;
 
 
+    public User() {
+    }
 
+    public User(String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.titles = titles;
+    }
 
-    public int getUserId() {
+    public User(Integer userId, String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.titles = titles;
+    }
+
+    public Integer getUserId() {
         return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -80,6 +104,7 @@ public class User {
     public void setTitles(List<Title> titles) {
         this.titles = titles;
     }
+
 
     @Override
     public boolean equals(Object o) {

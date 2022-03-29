@@ -26,7 +26,7 @@ public class UserDto {
         this.titles = titles;
     }
 
-    public UserDto(int userId, String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
+    public UserDto(Integer userId, String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,11 +36,11 @@ public class UserDto {
         this.titles = titles;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -95,12 +95,13 @@ public class UserDto {
     @Override
     public String toString() {
         return "UserDto{" +
-                "id=" + userId +
+                "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", titles=" + titles +
                 '}';
     }
 }
