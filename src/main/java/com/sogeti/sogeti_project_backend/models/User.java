@@ -1,14 +1,19 @@
 package com.sogeti.sogeti_project_backend.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 public class User {
 
@@ -19,116 +24,28 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private UserTitle userTitle;
+    private Integer userLevel;
     private String userName;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    //private UserRole userRole;
+
+
+ /*   @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_title", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "title_id"))
-    private List<Title> titles;
-
-
-    public User() {
-    }
-
-    public User(String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
-        this.titles = titles;
-    }
-
-    public User(Integer userId, String firstName, String lastName, String email, String userName, String password, List<Title> titles) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
-        this.titles = titles;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Title> getTitles() {
-        return titles;
-    }
-
-    public void setTitles(List<Title> titles) {
-        this.titles = titles;
-    }
-
+    private List<Title> titles;*/
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(titles, user.titles);
+        return userId != null && Objects.equals(userId, user.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, userName, password, titles);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", titles=" + titles +
-                '}';
+        return getClass().hashCode();
     }
 }

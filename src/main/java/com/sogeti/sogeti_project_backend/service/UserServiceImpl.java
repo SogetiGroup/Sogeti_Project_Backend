@@ -67,9 +67,11 @@ public class UserServiceImpl implements UserService{
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setEmail(dto.getEmail());
+        userEntity.setUserTitle(dto.getUserTitle());
+        userEntity.setUserLevel(dto.getUserLevel());
         userEntity.setUserName(dto.getUserName());
         userEntity.setPassword(dto.getPassword());
-        userEntity.setTitles(dto.getTitles());
+        // userEntity.setUserRole(dto.getUserRole())
 
         return dto;
 
