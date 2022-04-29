@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Entity
 public class User {
 
@@ -24,7 +25,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private UserTitle userTitle;
     private Integer userLevel;
     private String userName;
     private String password;
@@ -32,20 +32,21 @@ public class User {
     //private UserRole userRole;
 
 
- /*   @ManyToMany(cascade = CascadeType.ALL)
+   @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_title", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "title_id"))
-    private List<Title> titles;*/
+
+   private List<Title> titles;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof User)) return false;
         User user = (User) o;
-        return userId != null && Objects.equals(userId, user.userId);
+        return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(titles, user.titles) && Objects.equals(userLevel, user.userLevel) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(firstName, lastName, email, titles, userLevel, userName, password);
     }
 }

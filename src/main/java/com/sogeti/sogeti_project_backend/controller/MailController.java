@@ -1,36 +1,41 @@
 package com.sogeti.sogeti_project_backend.controller;
 
+import com.sogeti.sogeti_project_backend.dto.MailDto;
 import com.sogeti.sogeti_project_backend.service.MailService;
 import com.sogeti.sogeti_project_backend.utils.TicketStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.UUID;
 
+
+@RestController
+@RequestMapping(path = "/api/v1/mail")
+@CrossOrigin("*")
 public class MailController {
 
     @Autowired
     MailService mailService;
 
-    @GetMapping
-    public ResponseEntity<String> sendEmailTo(@RequestParam String to) {
-        System.out.println("to = " + to);
+    @PostMapping
+    public ResponseEntity<String> sendEmailTo(@RequestBody MailDto dto) {
+        System.out.println("dto = " + dto);
         System.out.println("Sending Email...");
         try {
             String ticket = UUID.randomUUID().toString();
             System.out.println("ticket = " + ticket);
             String link = "http://localhost:8080/api/v1/mail/verify/" + ticket;
-            TicketStorage.tickets.put(ticket, to);
+            TicketStorage.tickets.put(ticket, dto.getEmail());
             String body = "<h1>Confirm your email address.</h1><br/><p><b>" +
                     "Please verify your email (<a href=" + link + ">click here</a>)" +
-                    "</b></p>";
-            mailService.sendEmailWithAttachment(to, body,"Test Verification Email");
+                    "</b>" +
+                    dto.getMessage() +
+                    "</p>";
+            mailService.sendEmailWithAttachment(dto.getEmail(), body,dto.getSubject());
         } catch (IOException | MessagingException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
@@ -39,7 +44,7 @@ public class MailController {
         return ResponseEntity.ok().body("Email sent successfully");
     }
 
-    @GetMapping("verify/{ticket}")
+    @PostMapping("verify/{ticket}")
     public ResponseEntity<String> verifyEmailByTicketId(@PathVariable String ticket) {
         System.out.println("ticket = " + ticket);
         System.out.println(TicketStorage.tickets.toString());

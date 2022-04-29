@@ -49,6 +49,8 @@ public class UserControllerImpl implements UserController{
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> update(@PathVariable("id") Integer userId, @RequestBody UserDto dto) throws DataNotFoundException, ArgumentException {
+        System.out.println("userId = " + userId);
+
         //return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.update(dto));
         return ResponseEntity.ok(userService.update(userId, dto));
 
