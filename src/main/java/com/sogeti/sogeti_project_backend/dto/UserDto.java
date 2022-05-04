@@ -17,7 +17,8 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
-    private List<Title> titles;
+    private UserTitle userTitle;
+   // private List<Title> titles;
     private Integer userLevel;
     private String userName;
     private String password;

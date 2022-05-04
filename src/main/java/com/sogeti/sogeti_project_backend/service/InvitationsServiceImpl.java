@@ -60,6 +60,7 @@ public class InvitationsServiceImpl implements InvitationsService {
     @Override
     @Transactional
     public InvitationsDto update(InvitationsDto dto) throws ArgumentException {
+
         if (dto == null) throw new ArgumentException("Invitations data should not be null");
         if (dto.getInvitationId() == 0) throw new ArgumentException("InvitationsId should not be null");
 
