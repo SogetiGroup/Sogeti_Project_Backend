@@ -10,6 +10,7 @@ import com.sogeti.sogeti_project_backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService{
     private final ModelMapper mapper;
     private final UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserServiceImpl(ModelMapper mapper, UserRepository userRepository) {
         this.mapper = mapper;
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService{
     public UserDto create(UserDto dto) throws ArgumentException {
        // if (dto == null) throw new ArgumentException("User data should not be null");
        // if (dto.getUserId() != 0) throw new ArgumentException("User Id should be null");
+       dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         User saved = mapper.map(dto, User.class);
         User result = userRepository.save(saved);
         return mapper.map(result, UserDto.class);
